@@ -4,11 +4,16 @@ include "Koneksi.php";
     $nama = "jane Doe";
     $email = "jane@example.com";
 
-    $sql = "INSERT INTO siswa (nama, email) VALUES ('$nama', '$email')";
+    $stmt = $conn->prepare("INSERT INTO siswa (nama,email) VALUES (?,?)");
+    $stmt->bind_param("ss",$nama,$email);
 
-    if ($conn->query($sql)){
-        echo "Data Berhasil Ditambahkan";
+    if ($stmt->execute()) {
+        echo "Data Berhasil ditambahkan. ID".
+        $stmt->insert_id."\n";
     } else {
-        echo "Eror" . $sql . mysqli_eror($conn);
+        echo "Eror" . $stmt->eror."\n";
     }
+
+$stmt->close();
+$conn->close();
 ?>

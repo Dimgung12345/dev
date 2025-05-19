@@ -3,11 +3,14 @@ include "Koneksi.php";
 
     $id = 2;
 
-    $sql = "DELETE FROM siswa WHERE id=$id";
+    $stmt = $conn->prepare("DELETE FROM siswa WHERE id=?");
 
-    if ($conn->query($sql)) {
-        echo "Data berhasil di HAPUS";
+    if ($stmt->bind_param("i",$id)) {
+        echo "Data berhasil di HAPUS\n";
     } else {
         echo "Data gagal di HAPUS" . mysqli_eror($conn);
     }
+
+    $stmt->close();
+    $conn->close();
 ?>
